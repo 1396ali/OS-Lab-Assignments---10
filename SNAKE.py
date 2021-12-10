@@ -1,6 +1,5 @@
 import random
 import arcade
-from pyglet import text
 
 WIDTH = 600
 HEIGHT = 500
@@ -162,4 +161,5 @@ class Game(arcade.Window):
             self.snake.change_x = 0
     
 snake_game = Game()
+
 arcade.run()
