@@ -16,4 +16,6 @@ for r in range(10):
         else:
             arcade.draw_rectangle_filled(m , n , 12.5 , 12.5 , arcade.color.RED , 45)
 
+arcade.finish_render()
+
 arcade.run()
