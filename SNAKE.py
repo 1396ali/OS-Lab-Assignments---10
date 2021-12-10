@@ -1,8 +1,5 @@
-from os import WIFCONTINUED
 import random
 import arcade
-#from arcade.key import H
-#from arcade.key import DOWN, RIGHT, UP
 
 WIDTH = 600
 HEIGHT = 500
