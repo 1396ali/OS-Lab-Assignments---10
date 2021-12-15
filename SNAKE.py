@@ -51,18 +51,18 @@ class Snake(arcade.Sprite):
     def eat_apple(self):
         self.body_pos_size += 1
         self.score += 1
-        self.fire_music = arcade.load_sound(":resources:sounds/hit4.wav")
-        arcade.play_sound(self.fire_music)
+        self.app_music = arcade.load_sound(":resources:sounds/hit4.wav")
+        arcade.play_sound(self.app_music)
 
     def eat_bahbah(self):
         self.score += 2
-        self.fire_music = arcade.load_sound(":resources:sounds/hurt4.wav")
-        arcade.play_sound(self.fire_music)
+        self.bah_music = arcade.load_sound(":resources:sounds/hurt4.wav")
+        arcade.play_sound(self.bah_music)
 
     def eat_ahah(self):
         self.score -= 1
-        self.fire_music = arcade.load_sound(":resources:sounds/gameover2.wav")
-        arcade.play_sound(self.fire_music)
+        self.ah_music = arcade.load_sound(":resources:sounds/gameover2.wav")
+        arcade.play_sound(self.ah_music)
 
 class Apple(arcade.Sprite):
     def __init__(self):
@@ -125,7 +125,7 @@ class Game(arcade.Window):
         if (self.snake.center_x < 0) or (self.snake.center_x > WIDTH) or (self.snake.center_y < 0) or (self.snake.center_y > HEIGHT):
             self.snake.score = -1
             self.over_music = arcade.load_sound(":resources:sounds/gameover3.wav")
-            player = arcade.play_sound(self.over_music)       
+            arcade.play_sound(self.over_music)       
             arcade.pause(0.5)
 
 
