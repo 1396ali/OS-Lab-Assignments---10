@@ -3,7 +3,7 @@ import arcade
 
 WIDTH = 600
 HEIGHT = 500
-SIZE = 4
+SIZE = 6
 
 class Snake(arcade.Sprite):
     def __init__(self):
@@ -12,7 +12,7 @@ class Snake(arcade.Sprite):
         self.width = SIZE
         self.height = SIZE
         self.body_pos_size = 0
-        self.speed = 4
+        self.speed = 6
         self.color = arcade.color.BLACK
         self.body_pos = []
 
@@ -25,7 +25,7 @@ class Snake(arcade.Sprite):
         self.score = 0
 
     def draw(self):
-        arcade.draw_rectangle_outline(self.center_x,self.center_y,self.width,self.height,arcade.color.WHITE)
+        arcade.draw_rectangle_outline(self.center_x,self.center_y,self.width,self.height,arcade.color.WHITE,border_width=5,tilt_angle=45)
 
         for i , pos in enumerate(self.body_pos):
             if i%2 == 0:
@@ -51,12 +51,18 @@ class Snake(arcade.Sprite):
     def eat_apple(self):
         self.body_pos_size += 1
         self.score += 1
+        self.fire_music = arcade.load_sound(":resources:sounds/hit4.wav")
+        arcade.play_sound(self.fire_music)
 
     def eat_bahbah(self):
         self.score += 2
+        self.fire_music = arcade.load_sound(":resources:sounds/hurt4.wav")
+        arcade.play_sound(self.fire_music)
 
     def eat_ahah(self):
         self.score -= 1
+        self.fire_music = arcade.load_sound(":resources:sounds/gameover2.wav")
+        arcade.play_sound(self.fire_music)
 
 class Apple(arcade.Sprite):
     def __init__(self):
@@ -64,11 +70,11 @@ class Apple(arcade.Sprite):
         
         self.width = SIZE*4
         self.height = SIZE*4
-        self.radius = 10
+        self.radius = 8
         self.color = arcade.color.RED
         
-        self.center_x = random.randint(100,WIDTH-100)
-        self.center_y = random.randint(100,HEIGHT-100)
+        self.center_x = random.randint(100,WIDTH-25)
+        self.center_y = random.randint(100,HEIGHT-25)
         
     def draw(self):
         arcade.draw_circle_filled(self.center_x,self.center_y,self.radius,self.color)
@@ -79,11 +85,11 @@ class Bahbah(arcade.Sprite):
         
         self.width = SIZE*3
         self.height = SIZE*3
-        self.radius = 4
+        self.radius = 5
         self.color = arcade.color.YELLOW
         
-        self.center_x = random.randint(50,WIDTH-50)
-        self.center_y = random.randint(50,HEIGHT-50)
+        self.center_x = random.randint(50,WIDTH-100)
+        self.center_y = random.randint(50,HEIGHT-100)
         
     def draw(self):
         arcade.draw_circle_filled(self.center_x,self.center_y,self.radius,self.color)
@@ -92,12 +98,12 @@ class Ahah(arcade.Sprite):
     def __init__(self):
         super().__init__()
         
-        self.width = SIZE*2
-        self.height = SIZE*2
+        self.width = SIZE*3
+        self.height = SIZE*3
         self.color = arcade.color.BROWN
 
-        self.center_x = random.randint(25,WIDTH-25)
-        self.center_y = random.randint(25,HEIGHT-25)
+        self.center_x = random.randint(25,WIDTH-75)
+        self.center_y = random.randint(25,HEIGHT-75)
         
     def draw(self):
         arcade.draw_rectangle_outline(self.center_x,self.center_y,self.width,self.height,self.color)
@@ -118,6 +124,10 @@ class Game(arcade.Window):
         
         if (self.snake.center_x < 0) or (self.snake.center_x > WIDTH) or (self.snake.center_y < 0) or (self.snake.center_y > HEIGHT):
             self.snake.score = -1
+            self.over_music = arcade.load_sound(":resources:sounds/gameover3.wav")
+            player = arcade.play_sound(self.over_music)       
+            arcade.pause(0.5)
+
 
         if self.snake.score >=0:
             text = f"score: {self.snake.score}"
@@ -128,7 +138,7 @@ class Game(arcade.Window):
             self.bahbah.draw()
             self.ahah.draw()
         else:
-            arcade.draw_text("GAME OVER!",0,250,arcade.color.WHITE,width=600,font_size=15,align='center')
+            arcade.draw_text("GAME OVER!",0,250,arcade.color.WHITE,width=600,font_size=15,align='center')    
         
 
     def on_update(self, delta_time: float):
