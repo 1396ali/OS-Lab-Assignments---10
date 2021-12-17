@@ -104,7 +104,8 @@ class Ahah(arcade.Sprite):
 
         self.center_x = random.randint(25,WIDTH-75)
         self.center_y = random.randint(25,HEIGHT-75)
-        
+
+            
     def draw(self):
         arcade.draw_rectangle_outline(self.center_x,self.center_y,self.width,self.height,self.color)
 
@@ -118,19 +119,21 @@ class Game(arcade.Window):
         self.bahbah = Bahbah()
         self.ahah = Ahah()
 
+        self.over = 1
+
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_text("RED : + / Yellow : ++ / Brown : --",200,480,arcade.color.BLACK,width=600,font_size=10)
         
         if (self.snake.center_x < 0) or (self.snake.center_x > WIDTH) or (self.snake.center_y < 0) or (self.snake.center_y > HEIGHT):
-            self.snake.score = -1
+            self.over = 0
             self.over_music = arcade.load_sound(":resources:sounds/gameover3.wav")
             arcade.play_sound(self.over_music)       
             arcade.pause(0.5)
 
-
-        if self.snake.score >=0:
-            text = f"score: {self.snake.score}"
+        if self.over > 0:
+            arcade.draw_text("RED : + / Yellow : ++ / Brown : --",200,480,arcade.color.BLACK,width=600,font_size=10)
+            
+            text = f"score : {self.snake.score}"
             arcade.draw_text(text,250,5,arcade.color.BLACK,15)
 
             self.snake.draw()
@@ -138,7 +141,9 @@ class Game(arcade.Window):
             self.bahbah.draw()
             self.ahah.draw()
         else:
-            arcade.draw_text("GAME OVER!",0,250,arcade.color.WHITE,width=600,font_size=15,align='center')    
+            arcade.draw_text("GAME OVER!",0,250,arcade.color.WHITE,width=600,font_size=15,align='center')
+            text = f"score : {self.snake.score}"
+            arcade.draw_text(text,250,50,arcade.color.BLACK,15)    
         
 
     def on_update(self, delta_time: float):
@@ -171,5 +176,5 @@ class Game(arcade.Window):
             self.snake.change_x = 0
     
 snake_game = Game()
-
+snake_game.center_window()
 arcade.run()
